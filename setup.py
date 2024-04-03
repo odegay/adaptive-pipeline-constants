@@ -10,7 +10,6 @@ setup(
     description="Constants for the Adaptive Pipeline Workflow project.",
     license="MIT",
     keywords="GenAI, GCP",
-    url="https://github.com/odegay/adaptive-pipeline-constants",
-    packages=find_packages(),  # Automatically finds your package
+    url="https://github.com/odegay/adaptive-pipeline-constants",    
     install_requires=[],  # List any dependencies your library has
 )
