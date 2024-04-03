@@ -8,7 +8,6 @@ steps:
          set -e  # Ensure the script exits on the first error
          pip install build==0.7.0 twine==3.4.2
          python setup.py sdist bdist_wheel
-         twine upload dist/* --repository-url https://upload.pypi.org/legacy/  # Explicit repo URL
-    env: 
-      - 'TWINE_USERNAME=${gcp_pypi_publish_username}'
+         twine upload dist/* --repository-url https://upload.pypi.org/legacy/ -u __token__ -p ${gcp_pypi_publish_api_token}
+    env:       
       - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'
