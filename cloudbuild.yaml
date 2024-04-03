@@ -10,4 +10,5 @@ steps:
          python setup.py sdist bdist_wheel
          twine upload dist/* --repository-url https://upload.pypi.org/legacy/ -u __token__ -p ${gcp_pypi_publish_api_token}
     env:       
+      - 'TWINE_USERNAME=__token__'
       - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'
