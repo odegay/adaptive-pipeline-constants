@@ -1,0 +1,18 @@
+steps:
+  # 1. Install dependencies
+  - name: 'python'  # Or a suitable Python image
+    entrypoint: 'bash'
+    args: ['-c', 'pip install build twine']  
+
+  # 2. Build the package
+  - name: 'python'
+    entrypoint: 'python'
+    args: ['setup.py', 'sdist', 'bdist_wheel']
+
+  # 4. Publish to PyPI
+  - name: 'python'
+    entrypoint: 'twine'
+    args: ['upload', 'dist/*']
+    env: 
+      - 'TWINE_USERNAME=${gcp_pypi_publish_username}'
+      - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'  # Secret! 
