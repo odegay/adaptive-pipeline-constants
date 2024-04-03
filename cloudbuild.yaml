@@ -1,18 +1,18 @@
 steps:
   # 1. Install dependencies
-  - name: 'python'  # Or a suitable Python image
+  - name: 'python:3.9'  # Use a specific Python version
     entrypoint: 'bash'
-    args: ['-c', 'pip install build twine']  
+    args: ['-c', 'pip install build==0.7.0 twine==3.4.2']  
 
   # 2. Build the package
-  - name: 'python'
+  - name: 'python:3.9'
     entrypoint: 'python'
     args: ['setup.py', 'sdist', 'bdist_wheel']
 
-  # 4. Publish to PyPI
-  - name: 'python'
-    entrypoint: 'twine'
-    args: ['upload', 'dist/*']
+  # 3. Publish to PyPI
+  - name: 'python:3.9'
+    entrypoint: 'bash'  # Use bash to access twine installed in the environment
+    args: ['-c', 'twine upload dist/*']
     env: 
       - 'TWINE_USERNAME=${gcp_pypi_publish_username}'
-      - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'  # Secret! 
+      - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'
