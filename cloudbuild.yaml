@@ -1,18 +1,14 @@
 steps:
-  # 1. Install dependencies
-  - name: 'python:3.9'  # Use a specific Python version
+  # 1. Install, Build, and Publish in a Single Step
+  - name: 'python:3.9'  # Specify Python version for consistency
     entrypoint: 'bash'
-    args: ['-c', 'pip install build==0.7.0 twine==3.4.2']  
-
-  # 2. Build the package
-  - name: 'python:3.9'
-    entrypoint: 'python'
-    args: ['setup.py', 'sdist', 'bdist_wheel']
-
-  # 3. Publish to PyPI
-  - name: 'python:3.9'
-    entrypoint: 'bash'  # Use bash to access twine installed in the environment
-    args: ['-c', 'twine upload dist/*']
+    args: 
+       - '-c'
+       - |
+         set -e  # Ensure the script exits on the first error
+         pip install build=0.7.0 twine==3.4.2
+         python setup.py sdist bdist_wheel
+         twine upload dist/* --repository-url https://upload.pypi.org/legacy/  # Explicit repo URL
     env: 
       - 'TWINE_USERNAME=${gcp_pypi_publish_username}'
       - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'
