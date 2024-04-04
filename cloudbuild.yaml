@@ -8,6 +8,7 @@ steps:
          set -e  # Ensure the script exits on the first error
          pip install build==0.7.0 twine==3.4.2
          python setup.py sdist bdist_wheel
+         echo "TWINE_PASSWORD: $TWINE_PASSWORD"
          twine upload dist/* --verbose
     env:       
        - 'TWINE_USERNAME=__token__'
