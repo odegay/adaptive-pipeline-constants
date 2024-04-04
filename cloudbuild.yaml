@@ -1,17 +1,16 @@
 steps:
-  # 1. Install, Build, and Publish in a Single Step
-  - name: 'python:3.9'  # Specify Python version for consistency
-    entrypoint: 'bash'
-    args: 
-       - '-c'
-       - |
-         set -e  # Ensure the script exits on the first error
-         pip install build==0.7.0 twine==3.4.2
-         python setup.py sdist bdist_wheel
-         echo "TWINE_PASSWORD: $TWINE_PASSWORD"
-         twine upload dist/* --verbose
-    env:       
-       - 'TWINE_USERNAME=__token__'
-       - 'TWINE_PASSWORD=${gcp_pypi_publish_token}'
-
-    #twine upload dist/* --repository-url https://upload.pypi.org/legacy/ -u __token__ -p ${gcp_pypi_publish_api_token} --verbose
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud secrets versions access latest --secret="gcp_pypi_publish_token" > /workspace/gcp_pypi_publish_token']
+- name: 'python:3.9'  # Specify Python version for consistency
+  entrypoint: 'bash'
+  args: 
+     - '-c'
+     - |
+       set -e  # Ensure the script exits on the first error
+       pip install build==0.7.0 twine==3.4.2
+       python setup.py sdist bdist_wheel
+       export TWINE_PASSWORD=$(cat /workspace/gcp_pypi_publish_token)
+       twine upload dist/* --verbose
+  env:       
+     - 'TWINE_USERNAME=__token__'
