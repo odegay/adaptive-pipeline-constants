@@ -20,5 +20,10 @@ class MSG_TYPE(Enum):
     ADAPTIVE_PIPELINE_END = 16
     ADAPTIVE_PIPELINE_ERROR = 17
 
-
-
+class PIPELINE_TOPICS(Enum):
+    WORKFLOW_TOPIC = "adaptive-pipeline-workflow-topic"
+    CONFIG_TOPIC = "adaptive-pipeline-config-topic"
+    FEATURES_TOPIC = "adaptive-pipeline-features-topic"
+    MODEL_TOPIC = "adaptive-pipeline-model-topic"
+    PREDICTION_TOPIC = "adaptive-pipeline-prediction-topic"    
+    ERROR_TOPIC = "adaptive-pipeline-error-topic"
